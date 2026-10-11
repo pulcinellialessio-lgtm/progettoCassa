@@ -120,6 +120,7 @@
             buttonScontrino.TabIndex = 6;
             buttonScontrino.Text = "💾​ emetti scontrino";
             buttonScontrino.UseVisualStyleBackColor = false;
+            buttonScontrino.Click += buttonScontrino_Click;
             // 
             // buttonAggiungi
             // 

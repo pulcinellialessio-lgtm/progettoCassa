@@ -6,6 +6,7 @@ namespace progettoCassa
     {
         List<string> listaOggetti = new List<string>();
         double prezzoTotale = 0;
+        int totaleQuantita = 0;
 
         public Form1()
         {
@@ -39,9 +40,11 @@ namespace progettoCassa
                 double prezzo = Convert.ToDouble(textBoxPrezzo.Text);
                 string nome = textBoxOggetto.Text;
 
+                totaleQuantita += quantita;
+
                 prezzo = prezzo * quantita;
                 prezzoTotale = prezzoTotale + prezzo;
-                                                                                           // sistemare problema con virgola e punto
+                // sistemare problema con virgola e punto
                 listaOggetti.Add("x" + quantita + " " + nome + " - " + prezzo + "€");
 
                 textBoxQuantita.Clear();
@@ -64,6 +67,8 @@ namespace progettoCassa
                 int quantita = Convert.ToInt32(textBoxQuantita.Text);
                 double prezzo = Convert.ToDouble(textBoxPrezzo.Text);
 
+                totaleQuantita -= quantita;
+
                 prezzo = prezzo * quantita;
                 prezzoTotale = prezzoTotale - prezzo;
 
@@ -75,6 +80,25 @@ namespace progettoCassa
             }
 
             Aggiorna();
+        }
+
+        private void buttonScontrino_Click(object sender, EventArgs e)
+        {
+            string dataCorrente = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+
+            using (StreamWriter sw = new StreamWriter("scontrini.csv"))
+            {
+                foreach (string s in listaOggetti)
+                {
+                    sw.WriteLine(s);
+                }
+
+                sw.WriteLine("Totale: " + prezzoTotale + "€");
+                sw.WriteLine();
+                sw.WriteLine("Quantità totale: " + totaleQuantita);
+                sw.WriteLine();
+                sw.WriteLine("Data: " + dataCorrente);
+            }
         }
     }
 }
